@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'pg'
   s.add_dependency 'bulk_data_methods'
   s.add_dependency 'activerecord5-redshift-adapter'
-  s.add_dependency 'activerecord', '~> 5.2.1'
-  s.add_development_dependency 'rails', '~> 5.2.1'
+  s.add_dependency 'activerecord', '~> 5.0.7'
+  s.add_development_dependency 'rails', '~> 5.0.7'
   s.add_development_dependency 'rspec-rails'
 end
