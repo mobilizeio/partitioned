@@ -19,26 +19,26 @@ module ActiveRecord
     # This method is patched to provide a relation referencing the partition instead
     # of the parent table.
     def relation_for_destroy
-      pk         = self.class.primary_key
-      column     = self.class.columns_hash[pk]
-      substitute = self.class.connection.substitute_at(column)
+      #pk         = self.class.primary_key
+      #column     = self.class.columns_hash[pk]
+      #substitute = self.class.connection.substitute_at(column)
 
       # ****** BEGIN PARTITIONED PATCH ******
       if self.class.respond_to?(:dynamic_arel_table)
+        binding.pry
         using_arel_table = dynamic_arel_table()
         relation = ActiveRecord::Relation.new(self.class, using_arel_table).
           where(using_arel_table[pk].eq(substitute))
       else
         # ****** END PARTITIONED PATCH ******
 
-        relation = self.class.unscoped.where(self.class.arel_table[pk].eq(substitute))
+        #self.class.unscoped.where(self.class.arel_table[pk].eq(substitute))
+        self.class.unscoped.where(self.class.primary_key => id)
+
 
         # ****** BEGIN PARTITIONED PATCH ******
       end
       # ****** END PARTITIONED PATCH ******
-
-      relation.bind_values = [[column, id]]
-      relation
     end
 
     # This method is patched to prefetch the primary key (if necessary) and to ensure
